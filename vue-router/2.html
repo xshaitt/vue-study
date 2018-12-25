@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>命名视图</title>
+</head>
+<body>
+<div id="app">
+    <router-view></router-view>
+</div>
+</body>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+<script>
+    const UsersNav = {
+        template: `
+        <div>
+        <router-link to="/emails">emails</router-link>
+        <router-link to="/admins">admins</router-link>
+</div>
+        `
+    }
+    const Users = {
+        template: `
+        <div>
+        <h2>用户控制面板</h2>
+        <UsersNav/>
+        <router-view></router-view>
+        <router-view name="adminSet"></router-view>
+</div>
+        `,
+        components: {UsersNav}
+    }
+    const Mails = {
+        template: '<div><h3>mails</h3></div>'
+    }
+    const AdminsGet = {
+        template: '<div><h3>admin get</h3></div>'
+    }
+    const AdminsSet = {
+        template: '<div><h3>admin set</h3></div>'
+    }
+    //加载多个视图，上面这个其实就是嵌套视图了，但是我还是要把这个功能稍微完善一下
+    const routes = [
+        {
+            path: '/',
+            component: Users,
+            //使用多组件的方式
+            children: [
+                {
+                    path: 'emails', component: Mails
+
+                },
+                {
+                    path: 'admins', components: {
+                        default: AdminsGet,
+                        adminSet: AdminsSet
+                    }
+                }
+            ]
+        }
+    ]
+
+    const router = new VueRouter({
+        routes // (缩写) 相当于 routes: routes
+    })
+    const app = new Vue({
+        router
+    }).$mount('#app')
+
+</script>
+</html>
