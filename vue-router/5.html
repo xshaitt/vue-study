@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>导航守卫</title>
+</head>
+<body>
+<div id="app">
+    <h1>Hello App!</h1>
+    <p>
+        <router-link :to="/1">链接1</router-link>
+        <router-link :to="/2">链接2</router-link>
+    </p>
+    <router-view></router-view>
+</div>
+</body>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+<script>
+    const Users = {template: '<div>users</div>'}
+    const routes = [
+        {
+            path: '/',
+            component: Users,
+            name: 'user'
+        }
+    ]
+    const router = new VueRouter({
+        routes // (缩写) 相当于 routes: routes
+    })
+    router.beforeEach((to, from, next) => {
+        // alert('不让跳转')
+        // next('/2')
+    })
+    //大概就是这样添加，但是不能这么粗暴
+    const app = new Vue({
+        router
+    }).$mount('#app')
+
+</script>
+</html>
