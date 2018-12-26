@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>模板</title>
+    <title>路由组件传参</title>
 </head>
 <body>
 <div id="app">
     <h1>Hello App!</h1>
     <p>
-        <router-link :to="{name:'user',params:{id:'xxx'}}">嵌套路由</router-link>
+        <router-link to="/users/23">路由组件传参</router-link>
     </p>
     <router-view></router-view>
 </div>
@@ -16,12 +16,13 @@
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 <script>
-    const Users = {template: '<div>users</div>'}
+    const Users = {props: ['id'], template: '<div>{{id}}</div>'}
     const routes = [
         {
             path: '/users/:id',
             component: Users,
-            name: 'user'
+            props: true
+            //布尔模式，把route.params设置为组件的属性
         }
     ]
     const router = new VueRouter({
